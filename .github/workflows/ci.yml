@@ -1,0 +1,59 @@
+name: CI
+#on: [push, pull_request]
+on: [push]
+
+env:
+  APK_ARM64: a_pinyin-2.0.0-a1-arm64-v8a-release.apk
+  APK_ARM32: a_pinyin-2.0.0-a1-armeabi-v7a-release.apk
+
+  URL_KTLINT: https://github.com/pinterest/ktlint/releases/download/0.43.2/ktlint
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    # 大约用时 5 分钟
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v2
+
+      # 安装 flutter
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          cache: true
+      - run: flutter --version
+      # 安装 ktlint
+      - run: curl -sSLO ${{ env.URL_KTLINT }} && chmod a+x ktlint
+      - run: ./ktlint --version
+      # DEBUG
+      - run: bash --version
+      - run: make --version
+
+      # 主要编译过程 (检查, 测试, 编译 apk 等)
+      # `bash -c time` 用于显示主要命令的执行时间
+      - run: make PREFIX="bash -c 'time \$\$*' ''" BIN_KTLINT=../ktlint ci
+
+      # DEBUG
+      - run: ls -al apk/build/app/outputs/flutter-apk/
+      # 重新签名 apk
+      - uses: r0adkll/sign-android-release@v1
+        id: sign_debug
+        with:
+          releaseDirectory: apk/build/app/outputs/flutter-apk/
+          signingKeyBase64: ${{ secrets.DEBUG_KEYSTORE_BASE64 }}
+          keyStorePassword: ${{ secrets.DEBUG_KEYSTORE_PASSWORD }}
+          alias: debugkey
+      # DEBUG
+      - run: ls -al apk/build/app/outputs/flutter-apk/
+
+      # 上传编译的 apk 文件
+      - uses: actions/upload-artifact@v2
+        with:
+          if-no-files-found: error
+          name: ${{ env.APK_ARM64 }}
+          path: apk/build/app/outputs/flutter-apk/app-arm64-v8a-release-signed.apk
+      - uses: actions/upload-artifact@v2
+        with:
+          if-no-files-found: error
+          name: ${{ env.APK_ARM32 }}
+          path: apk/build/app/outputs/flutter-apk/app-armeabi-v7a-release-signed.apk

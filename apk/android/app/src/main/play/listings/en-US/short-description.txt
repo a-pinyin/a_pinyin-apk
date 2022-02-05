@@ -1,0 +1,1 @@
+A Chinese pinyin input method for China users (zh_CN / Mandarin).
