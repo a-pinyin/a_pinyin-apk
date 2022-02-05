@@ -3,8 +3,8 @@ name: CI
 on: [push]
 
 env:
-  APK_ARM64: a_pinyin-2.0.0-a1-arm64-v8a-release.apk
-  APK_ARM32: a_pinyin-2.0.0-a1-armeabi-v7a-release.apk
+  APK_ARM64: a_pinyin-2.0.0-a2-arm64-v8a-release.apk
+  APK_ARM32: a_pinyin-2.0.0-a2-armeabi-v7a-release.apk
 
   URL_KTLINT: https://github.com/pinterest/ktlint/releases/download/0.43.2/ktlint
 
