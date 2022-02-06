@@ -45,7 +45,7 @@ apk: setup rust build_apk
 
 # [导出] 用于 github CI: make ci
 .PHONY: ci
-ci: first_test check test apk
+ci: first_test check test wasm_setup apk
 
 # [导出] 用于调试运行: make run
 .PHONY: run
@@ -72,7 +72,7 @@ setup: setup_assets
 # apk 资源包含最新版 README.md
 .PHONY: setup_assets
 setup_assets:
-	${PREFIX} cp README.md apk/assets/
+	cp README.md apk/assets/
 
 # 编译本应用依赖的 rust 部分
 .PHONY: rust
@@ -82,10 +82,18 @@ rust:
 	cp wasm_test/target/wasm32-unknown-unknown/release/wasm_test.wasm apk/assets/
 # TODO
 
+# pub: wasm
+.PHONY: wasm_setup
+wasm_setup: pub_get
+	cd apk && ${PREFIX} ${BIN_FLUTTER} pub run wasm:setup -o $(shell pwd)/.dart_tool/wasm/
+
+.PHONY: pub_get
+pub_get:
+	cd apk && ${PREFIX} ${BIN_FLUTTER} pub get
+
 # 编译 release apk
 .PHONY: build_apk
-build_apk:
-	cd apk && ${PREFIX} ${BIN_FLUTTER} pub get
+build_apk: pub_get
 	cd apk && ${PREFIX} ${BIN_FLUTTER} build apk --split-per-abi
 # TODO for F-Droid build apk
 # flutter build apk --split-per-abi --release --verbose

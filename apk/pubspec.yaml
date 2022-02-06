@@ -36,6 +36,11 @@ dependencies:
   shared_preferences: ^2.0.12
   path_provider: ^2.0.8
 
+  wasm:
+    git:
+      url: https://github.com/dart-lang/wasm.git
+      path: wasm
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
