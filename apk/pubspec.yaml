@@ -36,6 +36,8 @@ dependencies:
   shared_preferences: ^2.0.12
   path_provider: ^2.0.8
 
+  # 注意: flutter_wasm 目前不能正常编译, 所以直接依赖 wasm,
+  # 并手动编译 libwasmer.so
   wasm:
     git:
       url: https://github.com/dart-lang/wasm.git

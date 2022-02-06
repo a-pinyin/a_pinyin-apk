@@ -85,7 +85,7 @@ rust:
 # pub: wasm
 .PHONY: wasm_setup
 wasm_setup: pub_get
-	cd apk && ${PREFIX} ${BIN_FLUTTER} pub run wasm:setup -o $(shell pwd)/.dart_tool/wasm/
+	cd apk && ${PREFIX} ${BIN_FLUTTER} pub run wasm:setup -o $(shell pwd)/apk/.dart_tool/wasm/
 
 .PHONY: pub_get
 pub_get:
