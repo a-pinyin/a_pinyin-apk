@@ -11,7 +11,11 @@ a_pinyin: Open source Chinese pinyin input method (Android)
 
 + 支持系统: Android 8.1+ (API 27)
 
-+ 支持硬件: `arm64-v8a`, `armeabi-v7a`
++ 支持硬件: `arm64-v8a`
+
+  + TODO `armeabi-v7a`
+
+    [wasm](https://github.com/dart-lang/wasm/issues/53) 暂不支持 `armeabi-v7a`
 
 
 ## 下载安装
@@ -43,7 +47,15 @@ TODO 发布至 [F-Droid](https://f-droid.org/)
 
 此部分说明一般适用于开发者.
 
-+ 使用 [flutter](https://flutter.dev/) / [dart](https://dart.dev/)
++ 使用 [flutter](https://flutter.dev/) / [dart](https://dart.dev/) / [rustup](https://www.rust-lang.org/tools/install) / Android ndk (r21e)
+
++ 初始化 (只需执行一次)
+
+  ```sh
+  rustup target add aarch64-linux-android wasm32-unknown-unknown
+  make wasm_setup
+  make DIR_NDK=/path/to/ndk wasm_build_wasmer
+  ```
 
 + 运行调试版 (flutter run)
 

@@ -11,6 +11,6 @@ Main features:
 + Clipboard manager
 + and more !
 
-Supported architecture: arm64-v8a, armeabi-v7a
+Supported architecture: arm64-v8a
 
 Full document: https://github.com/fm-elpac/a_pinyin

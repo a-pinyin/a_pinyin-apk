@@ -90,6 +90,7 @@ wasm_setup: pub_get
 	cd apk && ${PREFIX} ${BIN_FLUTTER} pub run wasm:setup -o $(shell pwd)/apk/.dart_tool/wasm/
 
 # 手动编译 libwasmer.so
+# ndk: r21e
 .PHONY: wasm_build_wasmer
 wasm_build_wasmer:
 	echo NDK=${DIR_NDK}
@@ -103,14 +104,8 @@ wasm_build_wasmer:
 	--clangpp ${DIR_NDK}/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android27-clang++ \
 	--ar ${DIR_NDK}/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android-ar \
 	-o $(shell pwd)/apk/build/wasm/arm64-v8a
-# TODO
-# flutter pub run wasm:setup \
-# --target aarch64-linux-android \
-# --sysroot ~/Android/Sdk/ndk/23.1.7779620/toolchains/llvm/prebuilt/linux-x86_64/sysroot \
-# --clang ~/Android/Sdk/ndk/23.1.7779620/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android27-clang \
-# --clangpp ~/Android/Sdk/ndk/23.1.7779620/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android27-clang++ \
-# --ar ~/Android/Sdk/ndk/23.1.7779620/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-ar \
-# -o ~/a_pinyin-apk/apk/build/wasm/arm64-v8a
+
+	cp apk/build/wasm/arm64-v8a/libwasmer.so apk/android/app/src/main/jniLibs/arm64-v8a/
 
 .PHONY: pub_get
 pub_get:
@@ -119,8 +114,8 @@ pub_get:
 # 编译 release apk
 .PHONY: build_apk
 build_apk: pub_get
-	cd apk && ${PREFIX} ${BIN_FLUTTER} build apk --split-per-abi
-# TODO for F-Droid build apk
+	cd apk && ${PREFIX} ${BIN_FLUTTER} build apk
+# TODO  F-Droid
 # flutter build apk --split-per-abi --release --verbose
 
 
