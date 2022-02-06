@@ -12,7 +12,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     # 大约用时 5 分钟
-    timeout-minutes: 20
+    timeout-minutes: 25
     steps:
       - uses: actions/checkout@v2
 
@@ -25,6 +25,17 @@ jobs:
       # 安装 ktlint
       - run: curl -sSLO ${{ env.URL_KTLINT }} && chmod a+x ktlint
       - run: ./ktlint --version
+      # rust 编译工具
+      - uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          target: wasm32-unknown-unknown
+          components: rustfmt, clippy
+          override: true
+      - run: cargo --version
+      # wasm-gc
+      - run: cargo install wasm-gc
+      - run: type wasm-gc
       # DEBUG
       - run: bash --version
       - run: make --version

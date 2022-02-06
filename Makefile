@@ -31,6 +31,8 @@ BIN_FLUTTER := flutter
 BIN_KTLINT := ktlint
 # cargo 可执行命令位置
 BIN_CARGO := cargo
+# wasm-gc
+BIN_WASM_GC := wasm-gc
 
 # 命令前缀
 PREFIX :=
@@ -43,7 +45,7 @@ apk: setup rust build_apk
 
 # [导出] 用于 github CI: make ci
 .PHONY: ci
-ci: first_test check apk
+ci: first_test check test apk
 
 # [导出] 用于调试运行: make run
 .PHONY: run
@@ -75,7 +77,10 @@ setup_assets:
 # 编译本应用依赖的 rust 部分
 .PHONY: rust
 rust:
-	echo TODO rust
+	cd wasm_test && ${PREFIX} ${BIN_CARGO} build --target wasm32-unknown-unknown --release
+	${PREFIX} ${BIN_WASM_GC} wasm_test/target/wasm32-unknown-unknown/release/wasm_test.wasm
+	cp wasm_test/target/wasm32-unknown-unknown/release/wasm_test.wasm apk/assets/
+# TODO
 
 # 编译 release apk
 .PHONY: build_apk
@@ -88,7 +93,7 @@ build_apk:
 
 # 源代码检查, 用于 CI
 .PHONY: check
-check: check_flutter check_ktlint
+check: check_flutter check_ktlint check_rust
 
 # 代码格式检查 (dart)
 .PHONY: check_flutter
@@ -99,6 +104,20 @@ check_flutter:
 .PHONY: check_ktlint
 check_ktlint:
 	cd apk && ${PREFIX} ${BIN_KTLINT} --android
+
+# cargo fmt
+.PHONY: check_rust
+check_rust:
+	cd wasm_test && ${PREFIX} ${BIN_CARGO} fmt --check
+
+# 测试
+.PHONY: test
+test: test_rust
+
+.PHONY: test_rust
+test_rust:
+	cd wasm_test && ${PREFIX} ${BIN_CARGO} test
+
 
 .PHONY: flutter_run
 flutter_run:
