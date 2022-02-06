@@ -33,6 +33,8 @@ BIN_KTLINT := ktlint
 BIN_CARGO := cargo
 # wasm-gc
 BIN_WASM_GC := wasm-gc
+# NDK 位置
+DIR_NDK :=
 
 # 命令前缀
 PREFIX :=
@@ -45,7 +47,7 @@ apk: setup rust build_apk
 
 # [导出] 用于 github CI: make ci
 .PHONY: ci
-ci: first_test check test wasm_setup apk
+ci: first_test check test wasm_setup wasm_build_wasmer apk
 
 # [导出] 用于调试运行: make run
 .PHONY: run
@@ -86,6 +88,29 @@ rust:
 .PHONY: wasm_setup
 wasm_setup: pub_get
 	cd apk && ${PREFIX} ${BIN_FLUTTER} pub run wasm:setup -o $(shell pwd)/apk/.dart_tool/wasm/
+
+# 手动编译 libwasmer.so
+.PHONY: wasm_build_wasmer
+wasm_build_wasmer:
+	echo NDK=${DIR_NDK}
+	ls ${DIR_NDK}
+	ls ${DIR_NDK}/toolchains/llvm/prebuilt/linux-x86_64/bin
+
+	cd apk && ${PREFIX} ${BIN_FLUTTER} pub run wasm:setup \
+	--target aarch64-linux-android \
+	--sysroot ${DIR_NDK}/platforms/android-27/arch-arm64 \
+	--clang ${DIR_NDK}/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android27-clang \
+	--clangpp ${DIR_NDK}/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android27-clang++ \
+	--ar ${DIR_NDK}/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android-ar \
+	-o $(shell pwd)/apk/build/wasm/arm64-v8a
+# TODO
+# flutter pub run wasm:setup \
+# --target aarch64-linux-android \
+# --sysroot ~/Android/Sdk/ndk/23.1.7779620/toolchains/llvm/prebuilt/linux-x86_64/sysroot \
+# --clang ~/Android/Sdk/ndk/23.1.7779620/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android27-clang \
+# --clangpp ~/Android/Sdk/ndk/23.1.7779620/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android27-clang++ \
+# --ar ~/Android/Sdk/ndk/23.1.7779620/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-ar \
+# -o ~/a_pinyin-apk/apk/build/wasm/arm64-v8a
 
 .PHONY: pub_get
 pub_get:

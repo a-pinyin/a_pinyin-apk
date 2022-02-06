@@ -37,6 +37,11 @@ jobs:
           path: apk/.dart_tool/wasm
           key: ${{ runner.os }}-wasm_setup
 
+      # Android NDK
+      - uses: nttld/setup-ndk@v1
+        id: ndk
+        with:
+          ndk-version: r21e
       # rust 编译工具
       - uses: actions-rs/toolchain@v1
         with:
@@ -54,7 +59,7 @@ jobs:
 
       # 主要编译过程 (检查, 测试, 编译 apk 等)
       # `bash -c time` 用于显示主要命令的执行时间
-      - run: make PREFIX="bash -c 'time \$\$*' ''" BIN_KTLINT=../ktlint ci
+      - run: make PREFIX="bash -c 'time \$\$*' ''" BIN_KTLINT=../ktlint DIR_NDK=${{ steps.ndk.outputs.ndk-path }} ci
 
       # DEBUG
       - run: ls -al apk/build/app/outputs/flutter-apk/
@@ -87,4 +92,9 @@ jobs:
           if-no-files-found: error
           name: dart_tool-wasm-libwasmer.so
           path: apk/.dart_tool/wasm/libwasmer.so
-
+      # arm64-v8a: libwasmer.so
+      - uses: actions/upload-artifact@v2
+        with:
+          if-no-files-found: error
+          name: arm64-v8a_libwasmer.so
+          path: apk/build/wasm/arm64-v8a/libwasmer.so
