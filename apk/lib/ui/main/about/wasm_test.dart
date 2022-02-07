@@ -21,7 +21,7 @@ Future<void> runWasmer(Uint8List m) async {
   print(mod.describe());
 
   var i = mod.builder().build();
-  int Function(int a, int b) add = i.lookupFunction('add');
+  var add = i.lookupFunction('add');
   var result = add(1, 2);
   print('add(1, 2) == ' + result.toString());
 }
