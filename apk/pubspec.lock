@@ -351,11 +351,9 @@ packages:
   wasm:
     dependency: "direct main"
     description:
-      path: wasm
-      ref: HEAD
-      resolved-ref: "0789947186747fad02d01f5e858b049f09b8cd81"
-      url: "https://github.com/dart-lang/wasm.git"
-    source: git
+      path: "../wasm/wasm"
+      relative: true
+    source: path
     version: "0.2.0-dev"
   win32:
     dependency: transitive
