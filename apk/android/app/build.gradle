@@ -54,7 +54,7 @@ android {
 
         // 注意: 不能使用 ndk.abiFilters 会冲突编译失败 !
         // ndk {
-        //     abiFilters 'arm64-v8a', 'armeabi-v7a'
+        //     abiFilters 'armeabi-v7a', 'arm64-v8a'
         // }
     }
 
@@ -63,8 +63,10 @@ android {
         abi {
             enable true
             reset()
-            //include 'arm64-v8a', 'armeabi-v7a'
-            include 'arm64-v8a'
+            // 注意: 修复 "降级安装" BUG
+            // armeabi-v7a 必须启用, 并放在 arm64-v8a 前面
+            include 'armeabi-v7a', 'arm64-v8a'
+            //include 'arm64-v8a'
 
             // 注意: universalApk 必须为 true, 若为 false 则 flutter run 失败 !
             universalApk true

@@ -114,7 +114,7 @@ pub_get:
 # 编译 release apk
 .PHONY: build_apk
 build_apk: pub_get
-	cd apk && ${PREFIX} ${BIN_FLUTTER} build apk
+	cd apk && ${PREFIX} ${BIN_FLUTTER} build apk --split-per-abi
 # TODO  F-Droid
 # flutter build apk --split-per-abi --release --verbose
 
