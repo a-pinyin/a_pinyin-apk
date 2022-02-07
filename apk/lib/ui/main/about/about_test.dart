@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import './wasm_test.dart';
 
 // 打开关于页面后执行的测试 (DEBUG)
 class AboutTest extends StatefulWidget {
@@ -13,7 +14,8 @@ class _AboutTestState extends State<AboutTest> {
   void initState() {
     super.initState();
 
-    // TODO run test
+    // run test
+    wasmTest();
   }
 
   @override
