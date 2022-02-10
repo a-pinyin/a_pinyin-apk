@@ -1,0 +1,23 @@
+diff --git a/wasm/lib/src/runtime.g.dart b/wasm/lib/src/runtime.g.dart
+index 2454fbc..a8759a6 100644
+--- a/wasm/lib/src/runtime.g.dart
++++ b/wasm/lib/src/runtime.g.dart
+@@ -575,10 +575,14 @@ class WasmRuntime {
+     final config = _config_new();
+     final triple = _wasmer_triple_new_from_host();
+     final cpuFeatures = _wasmer_cpu_features_new();
+-    final sse2 = _allocateString('sse2');
+-    _wasmer_cpu_features_add(cpuFeatures, sse2);
+-    calloc.free(sse2.ref.data);
+-    calloc.free(sse2);
++
++    // final sse2 = _allocateString('sse2');
++    // _wasmer_cpu_features_add(cpuFeatures, sse2);
++    // calloc.free(sse2.ref.data);
++    // calloc.free(sse2);
++    // FIXME
++    print('_createEngineConfig()  not add sse2');
++
+     final target = _wasmer_target_new(triple, cpuFeatures);
+     _config_set_target(config, target);
+     return config;

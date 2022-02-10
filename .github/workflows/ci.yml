@@ -59,6 +59,8 @@ jobs:
       - run: bash --version
       - run: make --version
 
+      # 修复依赖的代码
+      - run: make patch
       # 主要编译过程 (检查, 测试, 编译 apk 等)
       # `bash -c time` 用于显示主要命令的执行时间
       - run: make PREFIX="bash -c 'time \$\$*' ''" BIN_KTLINT=../ktlint DIR_NDK=${{ steps.ndk.outputs.ndk-path }} ci

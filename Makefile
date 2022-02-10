@@ -150,3 +150,13 @@ test_rust:
 .PHONY: flutter_run
 flutter_run:
 	cd apk && ${BIN_FLUTTER} run
+
+
+# 修复依赖的代码 (upstream)
+.PHONY: patch
+patch: wasm_patch
+
+# 修复 dart-lang/wasm 依赖
+.PHONY: wasm_patch
+wasm_patch:
+	cd wasm && git apply ../wasm_patch/fix_sse2.patch
