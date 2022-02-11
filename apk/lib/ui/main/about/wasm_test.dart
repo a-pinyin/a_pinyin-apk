@@ -28,6 +28,6 @@ Future<void> runWasmer(Uint8List m) async {
 
 // 从 asset 加载 wasm 二进制数据
 Future<Uint8List> loadWasm() async {
-  var data = await rootBundle.load('assets/wasm_test.wasm');
+  var data = await rootBundle.load('assets/wasm/wasm_test.wasm');
   return data.buffer.asUint8List();
 }

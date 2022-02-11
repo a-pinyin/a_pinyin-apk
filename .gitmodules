@@ -1,3 +1,6 @@
 [submodule "wasm"]
 	path = wasm
 	url = https://github.com/dart-lang/wasm
+[submodule "doc"]
+	path = doc
+	url = https://github.com/fm-elpac/a_pinyin

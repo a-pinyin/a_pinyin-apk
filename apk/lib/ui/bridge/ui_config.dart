@@ -22,6 +22,13 @@ const ckUiLogPerf = 'ui.log.perf';
 // 启用输入日志
 const ckUiLogInput = 'ui.log.input';
 
+// 拼音模式
+const ckUiCorePinyinMode = 'ui.core.pinyin_mode';
+// 值: 全拼 (简拼)
+const cvCorePinyinModePinyin = 'pinyin';
+// 值: 双拼/自然码
+const cvCorePinyinModeSpZirjma = 'sp_zirjma';
+
 // UI 配置保存工具
 class UiConfigHost {
   const UiConfigHost();
@@ -125,5 +132,15 @@ class UiConfigHost {
 
   Future<void> setLogInput(bool enable) async {
     await setBool(ckUiLogInput, enable);
+  }
+
+  // 拼音模式
+  Future<String> getCorePinyinMode() async {
+    var v = await getString(ckUiCorePinyinMode);
+    if (v != null) {
+      return v;
+    }
+    // TODO 默认值
+    return cvCorePinyinModeSpZirjma;
   }
 }

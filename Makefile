@@ -71,17 +71,18 @@ first_test:
 .PHONY: setup
 setup: setup_assets
 
-# apk 资源包含最新版 README.md
+# apk 资源包含最新版 README.md, a_pinyin-2u.sql
 .PHONY: setup_assets
 setup_assets:
 	cp README.md apk/assets/
+	cp doc/db/a_pinyin-2u.sql apk/assets/sql/
 
 # 编译本应用依赖的 rust 部分
 .PHONY: rust
 rust:
 	cd wasm_test && ${PREFIX} ${BIN_CARGO} build --target wasm32-unknown-unknown --release
 	${PREFIX} ${BIN_WASM_GC} wasm_test/target/wasm32-unknown-unknown/release/wasm_test.wasm
-	cp wasm_test/target/wasm32-unknown-unknown/release/wasm_test.wasm apk/assets/
+	cp wasm_test/target/wasm32-unknown-unknown/release/wasm_test.wasm apk/assets/wasm/
 # TODO
 
 # pub: wasm
