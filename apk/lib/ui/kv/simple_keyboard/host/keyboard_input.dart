@@ -42,6 +42,7 @@ class KeyboardInput {
       }
       return text;
     }
+    return null;
   }
 
   // 剪切

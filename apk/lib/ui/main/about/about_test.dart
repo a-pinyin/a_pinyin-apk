@@ -21,6 +21,6 @@ class _AboutTestState extends State<AboutTest> {
   @override
   Widget build(BuildContext context) {
     // 空白占位符
-    return Container();
+    return const SizedBox.shrink();
   }
 }

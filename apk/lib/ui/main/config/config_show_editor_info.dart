@@ -1,37 +1,22 @@
 import 'dart:async';
-import 'package:flutter/material.dart';
 import '../../bridge/bridge.dart';
+import './config_item_switch.dart';
 
 // 设置项: 显示 EditorInfo
-class ConfigShowEditorInfo extends StatelessWidget {
-  const ConfigShowEditorInfo({
-    Key? key,
-    required this.uch,
-    required this.value,
-    required this.onUpdate,
-  }) : super(key: key);
+class ConfigShowEditorInfo extends ConfigItemSwitch {
+  ConfigShowEditorInfo()
+      : super(
+          title: '显示 EditorInfo',
+          text: '在键盘小工具页面显示当前输入文本框的 EditorInfo (用于调试)',
+        );
 
-  // 当前设置值
-  final bool value;
-  // 设置更新后
-  final Future<void> Function() onUpdate;
-
-  final UiConfigHost uch;
-
-  Future<void> onChanged(bool v) async {
-    await uch.setShowEditorInfo(v);
-    await onUpdate();
+  @override
+  Future<bool> load(UiConfigHost uch) async {
+    return await uch.getShowEditorInfo();
   }
 
   @override
-  Widget build(BuildContext context) {
-    return ListTile(
-      title: const Text('显示 EditorInfo'),
-      subtitle: const Text('在键盘小工具页面显示当前输入文本框的 EditorInfo (用于调试)'),
-      trailing: Switch(
-        value: value,
-        onChanged: onChanged,
-      ),
-    );
+  Future<void> save(UiConfigHost uch, bool v) async {
+    await uch.setShowEditorInfo(v);
   }
 }

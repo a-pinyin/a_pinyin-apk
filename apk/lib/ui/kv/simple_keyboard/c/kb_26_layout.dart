@@ -57,7 +57,7 @@ class Kb26Layout extends StatelessWidget {
   Widget genKey(LayoutKeyItem ki) {
     switch (ki.type) {
       case LayoutKeyType.white:
-        return wrapKey(5, Container());
+        return wrapKey(5, const SizedBox.shrink());
       case LayoutKeyType.backspace:
         return wrapKey(
           15,

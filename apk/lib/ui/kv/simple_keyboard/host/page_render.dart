@@ -45,7 +45,7 @@ class PageRender extends StatelessWidget {
   // 隐藏键盘模式
   Widget getDown() {
     if (state.kbHideMode) {
-      return Container();
+      return const SizedBox.shrink();
     }
 
     return StrictFlex(

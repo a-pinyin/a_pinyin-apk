@@ -39,7 +39,7 @@ class _NoLogModeState extends State<NoLogMode> {
         ),
       );
     }
-    return Container();
+    return const SizedBox.shrink();
   }
 
   @override

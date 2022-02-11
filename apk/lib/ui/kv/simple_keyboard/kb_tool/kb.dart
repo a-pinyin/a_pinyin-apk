@@ -24,7 +24,7 @@ class KbTool extends StatelessWidget {
         // EditorInfo
         state.config.toolShowEditorInfo
             ? Info(info: state.editorInfo)
-            : Container(),
+            : const SizedBox.shrink(),
       ],
     );
   }

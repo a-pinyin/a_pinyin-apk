@@ -1,28 +1,35 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import '../../bridge/bridge.dart';
+import '../../kv/simple_keyboard/config.dart';
 import '../../kv/simple_keyboard/kb_layout.dart';
+import './config_item.dart';
 
 // 设置项: 键盘布局
-class ConfigKbLayout extends StatelessWidget {
-  const ConfigKbLayout({
-    Key? key,
-    required this.uch,
-    required this.value,
-    required this.onUpdate,
-  }) : super(key: key);
+class ConfigKbLayout extends ConfigItemImpl {
+  ConfigKbLayout() : super(title: '键盘布局');
 
-  final String value;
-  final Future<void> Function() onUpdate;
-  final UiConfigHost uch;
+  String value = kbLayoutDefault;
 
-  Future<void> onChange(String v) async {
-    await uch.setKbLayout(v);
-    await onUpdate();
+  @override
+  String get text {
+    return '当前键盘布局名称: ' + value;
+  }
+
+  @override
+  Future<void> loadConfig(ConfigItemHost ci) async {
+    var v = await ci.uch.getKbLayout();
+    if (v != null) {
+      value = v;
+    }
+  }
+
+  Future<void> change(ConfigItemHost ci, String v) async {
+    await ci.uch.setKbLayout(v);
+    ci.onUpdate();
   }
 
   // 选择键盘布局的对话框
-  Widget selectDialog(BuildContext context) {
+  Widget selectDialog(BuildContext context, ConfigItemHost ci) {
     void closeDialog() {
       Navigator.of(context, rootNavigator: true).pop();
     }
@@ -33,7 +40,7 @@ class ConfigKbLayout extends StatelessWidget {
           .map((name) => SimpleDialogOption(
                 child: Text(name),
                 onPressed: () {
-                  onChange(name);
+                  change(ci, name);
                   closeDialog();
                 },
               ))
@@ -42,19 +49,15 @@ class ConfigKbLayout extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return ListTile(
-      title: const Text('键盘布局'),
-      subtitle: Text('当前键盘布局名称: ' + value),
-      trailing: IconButton(
-        icon: const Icon(Icons.edit_rounded),
-        onPressed: () {
-          showDialog(
-            context: context,
-            builder: (BuildContext context) => selectDialog(context),
-          );
-        },
-      ),
+  Widget build(BuildContext context, ConfigItemHost ci) {
+    return IconButton(
+      icon: const Icon(Icons.edit_rounded),
+      onPressed: () {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) => selectDialog(context, ci),
+        );
+      },
     );
   }
 }
