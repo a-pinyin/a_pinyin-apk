@@ -17,6 +17,11 @@ const ckUiClipTopNoti = 'ui.clip.top_noti';
 // 启用剪切板变更通知
 const ckUiClipUpdateNoti = 'ui.clip.update_noti';
 
+// 启用性能日志
+const ckUiLogPerf = 'ui.log.perf';
+// 启用输入日志
+const ckUiLogInput = 'ui.log.input';
+
 // UI 配置保存工具
 class UiConfigHost {
   const UiConfigHost();
@@ -102,5 +107,23 @@ class UiConfigHost {
 
   Future<void> setClipUpdateNoti(bool enable) async {
     await setBool(ckUiClipUpdateNoti, enable);
+  }
+
+  // 启用性能日志
+  Future<bool> getLogPerf() async {
+    return await getBool(ckUiLogPerf);
+  }
+
+  Future<void> setLogPerf(bool enable) async {
+    await setBool(ckUiLogPerf, enable);
+  }
+
+  // 启用输入日志
+  Future<bool> getLogInput() async {
+    return await getBool(ckUiLogInput);
+  }
+
+  Future<void> setLogInput(bool enable) async {
+    await setBool(ckUiLogInput, enable);
   }
 }

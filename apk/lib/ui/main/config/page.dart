@@ -9,6 +9,8 @@ import './config_clip_enable.dart';
 import './config_clip_log.dart';
 import './config_clip_top_noti.dart';
 import './config_clip_update_noti.dart';
+import './config_log_perf.dart';
+import './config_log_input.dart';
 
 // 设置页面
 class PageConfig extends StatefulWidget {
@@ -35,6 +37,7 @@ class _PageConfigState extends State<PageConfig> {
   ConfigItemImpl configKbLayout = ConfigKbLayout();
   // 显示 EditorInfo
   ConfigItemImpl configShowEditorInfo = ConfigShowEditorInfo();
+
   // 启用剪切板管理器
   ConfigItemImpl configClipEnable = ConfigClipEnable();
   // 启用剪切板日志
@@ -43,6 +46,11 @@ class _PageConfigState extends State<PageConfig> {
   ConfigItemImpl configClipTopNoti = ConfigClipTopNoti();
   // 启用剪切板变更通知
   ConfigItemImpl configClipUpdateNoti = ConfigClipUpdateNoti();
+
+  // 启用性能日志
+  ConfigItemImpl configLogPerf = ConfigLogPerf();
+  // 启用输入日志
+  ConfigItemImpl configLogInput = ConfigLogInput();
 
   late ConfigItemData data;
 
@@ -150,6 +158,18 @@ class _PageConfigState extends State<PageConfig> {
           data: data,
           onUpdate: onUpdate,
           impl: configClipUpdateNoti,
+        ),
+        const Divider(),
+        // 日志
+        ConfigItem(
+          data: data,
+          onUpdate: onUpdate,
+          impl: configLogPerf,
+        ),
+        ConfigItem(
+          data: data,
+          onUpdate: onUpdate,
+          impl: configLogInput,
         ),
         const Divider(),
       ],

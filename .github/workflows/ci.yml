@@ -11,8 +11,8 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
-    # 大约用时 10 分钟
-    timeout-minutes: 30
+    # 大约用时 15 分钟
+    timeout-minutes: 50
     steps:
       - uses: actions/checkout@v2
         with:
