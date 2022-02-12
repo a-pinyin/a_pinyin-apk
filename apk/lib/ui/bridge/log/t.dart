@@ -33,3 +33,7 @@ const perfCodeInitClip = 'init.clip';
 const perfCodeInitUi = 'init.ui';
 // Im 生命周期回调
 const perfCodeImOn = 'im.on';
+
+// 剪切板日志 code 定义
+const clipCodeInit = 'clip.init';
+const clipCodeUpdate = 'clip.update';

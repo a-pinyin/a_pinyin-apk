@@ -14,6 +14,8 @@ const sbmImOnUnbindInput = 'im.on.unbind_input';
 const sbmImOnStartInputView = 'im.on.start_input_view';
 const sbmImOnFinishInput = 'im.on.finish_input';
 const sbmImOnDestroy = 'im.on.destroy';
+// 监听到剪切板变更
+const sbmImClipUpdate = 'im.clip.update';
 // kv (dart) 要求关闭软键盘
 const sbmKvKbClose = 'kv.kb.close';
 // UI (dart-main) 更新了设置 (需要别的组件重新加载配置)

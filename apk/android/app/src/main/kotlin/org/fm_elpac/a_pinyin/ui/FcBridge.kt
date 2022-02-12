@@ -468,6 +468,8 @@ class FcBridge(val service: ImService) : SuperBi {
     // 监听剪切板变更
     class ClipListener : ClipboardManager.OnPrimaryClipChangedListener {
         override fun onPrimaryClipChanged() {
+            // DEBUG
+            println("a_pinyin.FcBridge  onPrimaryClipChanged()")
             // 广播
             SB.send(SBM_IM_CLIP_UPDATE)
         }

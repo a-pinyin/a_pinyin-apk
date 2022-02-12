@@ -50,6 +50,8 @@ class KeyboardHost {
 
     // LogHost
     _lh.sbRecv(m);
+    // ClipHost
+    _ch.sbRecv(m);
   }
 
   // 生命周期函数

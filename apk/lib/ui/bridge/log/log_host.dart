@@ -194,7 +194,7 @@ class LogHost {
       );
     }
     // 刷写日志
-    if (m == 'im.on.finish_input') {
+    if (m == sbmImOnFinishInput) {
       await flush();
     }
   }

@@ -1,5 +1,6 @@
 import 'dart:async';
 import '../kv/simple_keyboard/host/config_state.dart';
+import './config.dart';
 import './si.dart';
 import './log/t.dart';
 
@@ -29,12 +30,13 @@ class ClipHost {
 
     // 处理配置
     if (configUpdate) {
+      if (_enableLog) {
+        await writeClipLog(code: clipCodeInit);
+      }
       // TODO
     }
     // 初始化日志
     if (init) {
-      // TODO
-
       final log = getLogHost();
       final time = log.getTime();
       await log.logPerf(
@@ -50,8 +52,40 @@ class ClipHost {
           },
         ).toJson(),
       );
+
+      await writeClipLog(code: clipCodeInit);
     }
   }
 
-  // TODO
+  Future<void> writeClipLog({String code = clipCodeUpdate}) async {
+    if (!_enableLog) {
+      return;
+    }
+
+    final log = getLogHost();
+    final time = log.getTime();
+    // 获取当前剪切板内容
+    var text = '';
+    final c = await getImChannel().clipboardGetText();
+    if (c != null && c.isNotEmpty) {
+      text = c.join('\n');
+    }
+
+    await log.logClip(
+      time,
+      LogItem(
+        time: time,
+        code: code,
+        text: text,
+      ).toJson(),
+    );
+    // 剪切板日志立即刷新
+    await log.flush();
+  }
+
+  Future<void> sbRecv(String m) async {
+    if (m == sbmImClipUpdate) {
+      await writeClipLog();
+    }
+  }
 }
