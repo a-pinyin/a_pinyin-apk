@@ -98,7 +98,7 @@ abstract class ConfigItemImpl {
   final String? _text;
 
   String get text {
-    var t = _text;
+    final t = _text;
     if (t != null) {
       return t;
     }

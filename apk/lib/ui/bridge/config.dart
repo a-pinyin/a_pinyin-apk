@@ -32,5 +32,7 @@ const dirLogInput = 'input';
 // 调试日志目录: log/debug/
 const dirLogDebug = 'debug';
 
-// 间隔多久刷写一次日志 (60 秒)
-const logFlushTimeMs = 60 * 1000;
+// 间隔多久刷写一次日志 (30 秒)
+const logFlushTimeMs = 30 * 1000;
+// 日志文件后缀
+const logFileSuffix = '.log.txt';

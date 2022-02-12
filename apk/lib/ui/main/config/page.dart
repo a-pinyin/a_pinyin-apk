@@ -95,7 +95,7 @@ class _PageConfigState extends State<PageConfig> {
   // 用于初始化加载
   Widget pageBody(BuildContext context) {
     if (afterReload) {
-      var done = countMount > 0 && countLoad >= countMount;
+      final done = countMount > 0 && countLoad >= countMount;
 
       return Stack(
         children: [

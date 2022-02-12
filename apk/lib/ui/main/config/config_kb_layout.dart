@@ -17,7 +17,7 @@ class ConfigKbLayout extends ConfigItemImpl {
 
   @override
   Future<void> loadConfig(ConfigItemHost ci) async {
-    var v = await ci.uch.getKbLayout();
+    final v = await ci.uch.getKbLayout();
     if (v != null) {
       value = v;
     }

@@ -1,5 +1,8 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import '../bridge/bridge.dart';
+import '../bridge/log/t.dart';
 import './home/page.dart';
 import './about/page.dart';
 import './clip/page.dart';
@@ -12,8 +15,38 @@ import './skin/page.dart';
 import './userd/page.dart';
 import './utool/page.dart';
 
-class MApp extends StatelessWidget {
+class MApp extends StatefulWidget {
   const MApp({Key? key}) : super(key: key);
+
+  @override
+  _MAppState createState() => _MAppState();
+}
+
+class _MAppState extends State<MApp> {
+  Future<void> _init() async {
+    final log = getLogHost();
+    // 避免和 kv 的日志冲突 name: 'ui'
+    await log.init(name: 'ui');
+    log.initFlush();
+    log.clean();
+
+    // 写一条初始化日志
+    final time = log.getTime();
+    await log.logPerf(
+      time,
+      LogItem(
+        time: time,
+        code: perfCodeInitUi,
+      ).toJson(),
+    );
+    await log.flush();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _init();
+  }
 
   @override
   Widget build(BuildContext context) {

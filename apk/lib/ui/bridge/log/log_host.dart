@@ -45,7 +45,7 @@ class LogHost {
 
   // 获取日志目录
   Future<String> getDir() async {
-    var d = await getExternalStorageDirectory();
+    final d = await getExternalStorageDirectory();
     if (d != null) {
       return p.join(d.path, dirLog);
     }
@@ -54,25 +54,25 @@ class LogHost {
 
   // 性能日志目录
   Future<String> getDirPerf() async {
-    var d = await getDir();
+    final d = await getDir();
     return p.join(d, dirLogPerf);
   }
 
   // 剪切板日志目录
   Future<String> getDirClip() async {
-    var d = await getDir();
+    final d = await getDir();
     return p.join(d, dirLogClip);
   }
 
   // 输入日志目录
   Future<String> getDirInput() async {
-    var d = await getDir();
+    final d = await getDir();
     return p.join(d, dirLogInput);
   }
 
   // 调试日志目录
   Future<String> getDirDebug() async {
-    var d = await getDir();
+    final d = await getDir();
     return p.join(d, dirLogDebug);
   }
 
@@ -82,7 +82,7 @@ class LogHost {
   }
 
   // 初始化
-  Future<void> init() async {
+  Future<void> init({String? name}) async {
     // 日志文件目录
     dir = await getDir();
     // DEBUG
@@ -101,13 +101,13 @@ class LogHost {
     print('LogHost dir_debug = ' + dirDebug);
 
     // LogWriter
-    _wPerf = LogWriter(dirPerf);
-    _wClip = LogWriter(dirClip);
-    _wInput = LogWriter(dirInput);
-    _wDebug = LogWriter(dirDebug);
+    _wPerf = LogWriter(dirPerf, name);
+    _wClip = LogWriter(dirClip, name);
+    _wInput = LogWriter(dirInput, name);
+    _wDebug = LogWriter(dirDebug, name);
 
     // 写一条 LogHost 初始化日志
-    var time = getTime();
+    final time = getTime();
     await logPerf(
       time,
       LogItem(
@@ -122,7 +122,7 @@ class LogHost {
         },
       ).toJson(),
     );
-    await flushPerf();
+    await flush();
   }
 
   // 启动周期刷写日志
@@ -143,32 +143,9 @@ class LogHost {
     await _wDebug.clean(logKeepDayDebug);
   }
 
-  // 刷写性能日志
-  Future<void> flushPerf() async {
-    await _wPerf.flush();
-  }
-
-  // 刷写输入日志
-  Future<void> flushInput() async {
-    await _wInput.flush();
-  }
-
-  // 刷写剪切板日志
-  Future<void> flushClip() async {
-    await _wClip.flush();
-  }
-
-  // 刷写调试日志
-  Future<void> flushDebug() async {
-    await _wDebug.flush();
-  }
-
-  // 刷写日志
+  // 刷写全部日志文件
   Future<void> flush() async {
-    await flushClip();
-    await flushPerf();
-    await flushInput();
-    await flushDebug();
+    writerFlush();
   }
 
   // 写性能日志
@@ -194,6 +171,28 @@ class LogHost {
   Future<void> logDebug(String time, String text) async {
     if (_enableDebug) {
       await _wDebug.write(time, text);
+    }
+  }
+
+  // 监听全局广播
+  Future<void> sbRecv(String m) async {
+    // 写性能日志
+    if (m.startsWith('im.on.')) {
+      final time = getTime();
+      await logPerf(
+        time,
+        LogItem(
+          time: time,
+          code: perfCodeImOn,
+          data: {
+            'm': m,
+          },
+        ).toJson(),
+      );
+    }
+    // 刷写日志
+    if (m == 'im.on.finish_input') {
+      await flush();
     }
   }
 }

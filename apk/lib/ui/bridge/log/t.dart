@@ -29,3 +29,7 @@ class LogItem {
 // 性能日志 code 定义
 const perfCodeInitLogHost = 'init.log_host';
 const perfCodeInitClip = 'init.clip';
+// 主界面初始化
+const perfCodeInitUi = 'init.ui';
+// Im 生命周期回调
+const perfCodeImOn = 'im.on';

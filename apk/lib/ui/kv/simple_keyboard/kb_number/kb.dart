@@ -26,7 +26,7 @@ class KbNumber extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // 4x6 键盘
-    var raw = <List<Widget>>[
+    final raw = <List<Widget>>[
       // 1
       [
         BtnText(

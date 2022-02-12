@@ -51,7 +51,7 @@ class UiConfigHost {
   }
 
   Future<bool> getBool(String k) async {
-    var value = (await p()).getBool(k);
+    final value = (await p()).getBool(k);
     if (value != null && value) {
       return true;
     }
@@ -136,7 +136,7 @@ class UiConfigHost {
 
   // 拼音模式
   Future<String> getCorePinyinMode() async {
-    var v = await getString(ckUiCorePinyinMode);
+    final v = await getString(ckUiCorePinyinMode);
     if (v != null) {
       return v;
     }

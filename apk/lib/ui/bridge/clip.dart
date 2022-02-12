@@ -16,7 +16,7 @@ class ClipHost {
 
   Future<void> setConfig(ConfigState config, {bool init = false}) async {
     // 检测配置变更
-    var configUpdate = (_enable != config.clipEnable) ||
+    final configUpdate = (_enable != config.clipEnable) ||
         (_enableLog != config.clipLog) ||
         (_enableTopNoti != config.clipTopNoti) ||
         (_enableUpdateNoti != config.clipUpdateNoti);
@@ -35,8 +35,8 @@ class ClipHost {
     if (init) {
       // TODO
 
-      var log = getLogHost();
-      var time = log.getTime();
+      final log = getLogHost();
+      final time = log.getTime();
       await log.logPerf(
         time,
         LogItem(

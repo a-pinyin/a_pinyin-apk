@@ -35,7 +35,7 @@ class Kb26Layout extends StatelessWidget {
 
   Widget genTextKey(int width, LayoutKeyItem ki) {
     // assert: ki.type == text
-    var text = shift ? ki.text2 : ki.text;
+    final text = shift ? ki.text2 : ki.text;
     if (text != null) {
       return wrapKey(
         width,

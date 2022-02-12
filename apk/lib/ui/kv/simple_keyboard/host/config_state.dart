@@ -100,24 +100,24 @@ class ConfigState {
     var layout = await uch.getKbLayout();
     layout ??= kbLayoutDefault;
     // 显示 EditorInfo
-    var showEditorInfo = await uch.getShowEditorInfo();
+    final showEditorInfo = await uch.getShowEditorInfo();
 
     // 启用剪切板管理器
-    var clipEnable = await uch.getClipEnable();
+    final clipEnable = await uch.getClipEnable();
     // 启用剪切板日志
-    var clipLog = await uch.getClipLog();
+    final clipLog = await uch.getClipLog();
     // 启用剪切板内容通知
-    var clipTopNoti = await uch.getClipTopNoti();
+    final clipTopNoti = await uch.getClipTopNoti();
     // 启用剪切板变更通知
-    var clipUpdateNoti = await uch.getClipUpdateNoti();
+    final clipUpdateNoti = await uch.getClipUpdateNoti();
 
     // 启用性能日志
-    var logPerf = await uch.getLogPerf();
+    final logPerf = await uch.getLogPerf();
     // 启用输入日志
-    var logInput = await uch.getLogInput();
+    final logInput = await uch.getLogInput();
 
     // 拼音模式
-    var corePinyinMode = await uch.getCorePinyinMode();
+    final corePinyinMode = await uch.getCorePinyinMode();
 
     return setKbLayout(layout).copy(
       toolShowEditorInfo: showEditorInfo,

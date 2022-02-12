@@ -88,16 +88,20 @@ class KeyboardState {
     // DEBUG
     print('kv.SimpleKeyboard  loadUiConfig()');
 
-    var c = await config.loadUiConfig(uch);
+    final c = await config.loadUiConfig(uch);
 
     // 同步合并状态
-    var cb = _callback;
+    final cb = _callback;
     if (cb != null) {
       cb.setState(cb.getState().copy(
             config: c,
           ));
     }
 
+    // 设置 LogHost
+    final log = getLogHost();
+    log.setEnablePerf(c.logPerf);
+    log.setEnableInput(c.logInput);
     // 设置 clip
     await getClipHost().setConfig(c);
   }
@@ -105,11 +109,11 @@ class KeyboardState {
   // 获取 EditorInfo
   // async callback
   Future<void> loadEditorInfo(ImChannel im) async {
-    var info = await im.getEditorInfo();
+    final info = await im.getEditorInfo();
     // TODO 更多处理 ?  比如自动切换到数字键盘
 
     // 同步合并状态
-    var cb = _callback;
+    final cb = _callback;
     if (cb != null && info != null) {
       // 处理 info 的 null 值
       for (var i in info.keys) {

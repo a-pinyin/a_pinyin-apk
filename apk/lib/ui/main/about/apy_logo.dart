@@ -13,7 +13,7 @@ const p20 = '拼20: 方圆之间, 刺破命运';
 
 class _ApyLogoState extends State<ApyLogo> {
   // 彩蛋: 点击切换 1/2 风格图标
-  var show2 = false;
+  bool show2 = false;
 
   void _click() {
     setState(() {

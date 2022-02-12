@@ -34,9 +34,9 @@ class KeyboardInput {
   // 复制
   // 返回复制的文本
   Future<String?> copy() async {
-    var i = im;
+    final i = im;
     if (i != null) {
-      var text = await i.getSelectedText();
+      final text = await i.getSelectedText();
       if (text != null) {
         await i.clipboardSetText(text);
       }
@@ -47,7 +47,7 @@ class KeyboardInput {
 
   // 剪切
   Future<void> cut() async {
-    var text = await copy();
+    final text = await copy();
     // 如果有选中的文本, 发送退格键删除它
     if (text != null) {
       await im?.sendKeyAbackspace();
@@ -61,9 +61,9 @@ class KeyboardInput {
 
   // 粘贴
   Future<void> paste() async {
-    var i = im;
+    final i = im;
     if (i != null) {
-      var list = await i.clipboardGetText();
+      final list = await i.clipboardGetText();
       if (list != null && list.isNotEmpty) {
         await i.addText(list.join('\n'));
       }

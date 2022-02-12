@@ -47,6 +47,9 @@ class KeyboardHost {
       // 更新 EditorInfo
       _state.loadEditorInfo(_im);
     }
+
+    // LogHost
+    _lh.sbRecv(m);
   }
 
   // 生命周期函数
@@ -71,6 +74,9 @@ class KeyboardHost {
   Future<void> _init2() async {
     // 初始化 LogHost
     await _lh.init();
+    _lh.initFlush();
+    // 不用等待日志清理完成
+    _lh.clean();
 
     // 监听全局广播, 必须在设置状态更新回调之后
     _listener = _sb.listen(_sbRecv);
