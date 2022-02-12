@@ -21,20 +21,12 @@ class ClipHost {
         (_enableLog != config.clipLog) ||
         (_enableTopNoti != config.clipTopNoti) ||
         (_enableUpdateNoti != config.clipUpdateNoti);
-
     // 更新配置
     _enable = config.clipEnable;
     _enableLog = config.clipLog;
     _enableTopNoti = config.clipTopNoti;
     _enableUpdateNoti = config.clipUpdateNoti;
 
-    // 处理配置
-    if (configUpdate) {
-      if (_enableLog) {
-        await writeClipLog(code: clipCodeInit);
-      }
-      // TODO
-    }
     // 初始化日志
     if (init) {
       final log = getLogHost();
@@ -55,37 +47,65 @@ class ClipHost {
 
       await writeClipLog(code: clipCodeInit);
     }
+
+    // 处理配置
+    if (configUpdate) {
+      if (_enableLog) {
+        await writeClipLog(code: clipCodeInit);
+      }
+      // TODO
+    }
+  }
+
+  // 获取当前剪切板内容
+  Future<String> getClipText() async {
+    var text = '';
+    final c = await getImChannel().clipboardGetText();
+    if (c != null && c.isNotEmpty) {
+      text = c.join('\n');
+    }
+    return text;
   }
 
   Future<void> writeClipLog({String code = clipCodeUpdate}) async {
     if (!_enableLog) {
       return;
     }
-
     final log = getLogHost();
     final time = log.getTime();
-    // 获取当前剪切板内容
-    var text = '';
-    final c = await getImChannel().clipboardGetText();
-    if (c != null && c.isNotEmpty) {
-      text = c.join('\n');
-    }
-
     await log.logClip(
       time,
       LogItem(
         time: time,
         code: code,
-        text: text,
+        text: await getClipText(),
       ).toJson(),
     );
     // 剪切板日志立即刷新
     await log.flush();
   }
 
+  // 发送剪切板变更通知
+  Future<void> sendClipUpdateNoti() async {
+    if (!_enableUpdateNoti) {
+      return;
+    }
+    final text = await getClipText();
+    if (text.isNotEmpty) {
+      await getNotiHost().sendOnceNoti(
+        title: '剪切板变更',
+        text: text,
+        channelId: 'a_pinyin.clip_update_noti',
+        channelName: '剪切板变更',
+        channelDesc: '监听到剪切板变更之后发出通知',
+      );
+    }
+  }
+
   Future<void> sbRecv(String m) async {
     if (m == sbmImClipUpdate) {
       await writeClipLog();
+      await sendClipUpdateNoti();
     }
   }
 }

@@ -3,6 +3,7 @@ import './super_bus.dart';
 import './im_channel.dart';
 import './ui_config.dart';
 import './log/log_host.dart';
+import './noti.dart';
 import './clip.dart';
 
 // SuperBus 单例
@@ -33,6 +34,13 @@ LogHost _siLh = LogHost();
 
 LogHost getLogHost() {
   return _siLh;
+}
+
+// NotiHost 单例
+NotiHost _siNh = NotiHost();
+
+NotiHost getNotiHost() {
+  return _siNh;
 }
 
 // ClipHost 单例
