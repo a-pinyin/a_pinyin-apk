@@ -27,3 +27,6 @@ const val SBM_IM_ON_DESTROY = "im.on.destroy"
 const val SBM_IM_CLIP_UPDATE = "im.clip.update"
 // kv (dart) 要求关闭软键盘
 const val SBM_KV_KB_CLOSE = "kv.kb.close"
+
+// flutter_local_notifications
+const val CLIP_FOREGROUND_SERVICE_NAME = "com.dexterous.flutterlocalnotifications.ForegroundService"

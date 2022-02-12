@@ -38,3 +38,8 @@ const dirLogDebug = 'debug';
 const logFlushTimeMs = 30 * 1000;
 // 日志文件后缀
 const logFileSuffix = '.log.txt';
+
+// 通知: 最小一次性通知 id
+const notiIdOnceMin = 2;
+// 常驻通知 id
+const notiIdTop = 1;

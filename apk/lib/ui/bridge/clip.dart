@@ -53,7 +53,12 @@ class ClipHost {
       if (_enableLog) {
         await writeClipLog(code: clipCodeInit);
       }
-      // TODO
+      // 剪切板内容常驻通知
+      if (_enableTopNoti) {
+        await showTopNoti();
+      } else {
+        await closeTopNoti();
+      }
     }
   }
 
@@ -102,10 +107,32 @@ class ClipHost {
     }
   }
 
+  // 显示/更新常驻通知
+  Future<void> showTopNoti() async {
+    final text = await getClipText();
+    await getNotiHost().startTopNoti(
+      title: '剪切板内容',
+      text: text,
+      channelId: 'a_pinyin.clip_top_noti',
+      channelName: '剪切板内容',
+      channelDesc: '显示当前剪切板内容的常驻通知',
+    );
+  }
+
+  // 关闭常驻通知
+  Future<void> closeTopNoti() async {
+    await getNotiHost().stopTopNoti();
+  }
+
   Future<void> sbRecv(String m) async {
     if (m == sbmImClipUpdate) {
       await writeClipLog();
       await sendClipUpdateNoti();
+      if (_enableTopNoti) {
+        await showTopNoti();
+      }
+    } else if (m == sbmImOnDestroy) {
+      await closeTopNoti();
     }
   }
 }

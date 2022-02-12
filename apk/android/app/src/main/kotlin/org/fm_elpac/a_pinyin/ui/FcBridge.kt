@@ -2,7 +2,9 @@ package org.fm_elpac.a_pinyin.ui
 
 import android.content.ClipData
 import android.content.ClipboardManager
+import android.content.ComponentName
 import android.content.Context
+import android.content.Intent
 import android.view.KeyEvent
 import android.view.MotionEvent
 import android.view.View
@@ -262,6 +264,12 @@ class FcBridge(val service: ImService) : SuperBi {
         engine?.lifecycleChannel?.appIsPaused()
     }
 
+    fun stopClipTopService() {
+        val i = Intent()
+        i.setComponent(ComponentName(service, CLIP_FOREGROUND_SERVICE_NAME))
+        service.stopService(i)
+    }
+
     fun onDestroy() {
         // 停止监听剪切板
         getClipboardManager().removePrimaryClipChangedListener(clipListener)
@@ -269,6 +277,9 @@ class FcBridge(val service: ImService) : SuperBi {
         SB.send(SBM_IM_ON_DESTROY)
 
         engine?.destroy()
+
+        // 确保剪切板常驻通知取消
+        stopClipTopService()
     }
 
     // 输入事件监听

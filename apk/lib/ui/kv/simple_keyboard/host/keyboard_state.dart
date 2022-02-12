@@ -86,10 +86,9 @@ class KeyboardState {
   // 加载 UI 配置
   Future<void> loadUiConfig(UiConfigHost uch, {bool first = false}) async {
     // DEBUG
-    print('kv.SimpleKeyboard  loadUiConfig()');
+    print('kv.SimpleKeyboard  loadUiConfig()  first = ' + first.toString());
 
     final c = await config.loadUiConfig(uch);
-
     // 同步合并状态
     final cb = _callback;
     if (cb != null) {
@@ -103,7 +102,7 @@ class KeyboardState {
     log.setEnablePerf(c.logPerf);
     log.setEnableInput(c.logInput);
     // 设置 clip
-    await getClipHost().setConfig(c);
+    await getClipHost().setConfig(c, init: first);
   }
 
   // 获取 EditorInfo
