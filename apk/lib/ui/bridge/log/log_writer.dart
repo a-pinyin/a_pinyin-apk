@@ -48,6 +48,8 @@ class LogWriter {
       op: _fileOp.write,
       dir: dir,
       filename: filename,
+      // 不要忘记 text
+      text: text,
     ));
   }
 
@@ -105,6 +107,12 @@ Future<void> _doOp(_FileOp op) async {
       for (var i in _cache.values) {
         await i.flush();
       }
+      // 全部 flush 成功之后再 close 文件
+      for (var i in _cache.values) {
+        await i.close();
+      }
+      // 清空 cache
+      _cache.clear();
       break;
     case _fileOp.write:
       if (op.text != null) {
@@ -125,7 +133,12 @@ Future<void> writerLoop() async {
     }
     final op = ev.data;
     if (op != null) {
-      await _doOp(op);
+      try {
+        await _doOp(op);
+      } catch (e) {
+        // 忽略单个操作错误
+        print(e);
+      }
     }
   }
 }

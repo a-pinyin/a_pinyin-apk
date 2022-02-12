@@ -106,6 +106,9 @@ class LogHost {
     _wInput = LogWriter(dirInput, name);
     _wDebug = LogWriter(dirDebug, name);
 
+    // 启动写循环
+    writerLoop();
+
     // 写一条 LogHost 初始化日志
     final time = getTime();
     await logPerf(
