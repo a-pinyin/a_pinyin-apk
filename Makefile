@@ -69,13 +69,18 @@ first_test:
 
 # 正式 flutter 编译之前的准备过程
 .PHONY: setup
-setup: setup_assets
+setup: setup_assets setup_build_runner
 
 # apk 资源包含最新版 README.md, a_pinyin-2u.sql
 .PHONY: setup_assets
 setup_assets:
 	cp README.md apk/assets/
 	cp doc/db/a_pinyin-2u.sql apk/assets/sql/
+
+# 生成 dart 代码
+.PHONY: setup_build_runner
+setup_build_runner:
+	cd apk && ${PREFIX} ${BIN_FLUTTER} pub run build_runner build
 
 # 编译本应用依赖的 rust 部分
 .PHONY: rust

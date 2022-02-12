@@ -31,11 +31,12 @@ dependencies:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
-  event_bus: ^2.0.0
   fast_immutable_collections: ^7.2.0
+  json_annotation: ^4.4.0
+  event_bus: ^2.0.0
   shared_preferences: ^2.0.13
-  path_provider: ^2.0.8
-  flutter_local_notifications: ^9.2.0
+  path_provider: ^2.0.9
+  flutter_local_notifications: ^9.3.1
 
   # 注意: flutter_wasm 目前不能正常编译, 所以直接依赖 wasm,
   # 并手动编译 libwasmer.so
@@ -47,6 +48,8 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  build_runner: ^2.1.7
+  json_serializable: ^6.1.4
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is

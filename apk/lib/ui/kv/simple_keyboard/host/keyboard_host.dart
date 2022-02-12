@@ -11,6 +11,8 @@ class KeyboardHost {
 
   final ImChannel _im = getImChannel();
   final SuperBus _sb = getSb();
+  final LogHost _lh = getLogHost();
+  final ClipHost _ch = getClipHost();
   // 监听全局广播
   StreamSubscription? _listener;
   // UI 配置
@@ -61,6 +63,15 @@ class KeyboardHost {
           getState: () => _state,
           setState: _updateState,
         )));
+
+    _init2();
+  }
+
+  // 第二阶段初始化
+  Future<void> _init2() async {
+    // 初始化 LogHost
+    await _lh.init();
+
     // 监听全局广播, 必须在设置状态更新回调之后
     _listener = _sb.listen(_sbRecv);
 

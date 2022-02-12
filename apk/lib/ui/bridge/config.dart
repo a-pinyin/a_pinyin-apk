@@ -18,3 +18,19 @@ const sbmImOnDestroy = 'im.on.destroy';
 const sbmKvKbClose = 'kv.kb.close';
 // UI (dart-main) 更新了设置 (需要别的组件重新加载配置)
 const sbmUiConfigUpdate = 'ui.config.update';
+
+// 日志文件目录
+// getExternalStorageDirectory() = /storage/emulated/0/Android/data/org.fm_elpac.a_pinyin.ui/files
+// /sdcard/Android/data/org.fm_elpac.a_pinyin.ui/files/log/
+const dirLog = 'log';
+// 性能日志目录: log/perf/
+const dirLogPerf = 'perf';
+// 剪切板日志目录: log/clip/
+const dirLogClip = 'clip';
+// 输入日志目录: log/input/
+const dirLogInput = 'input';
+// 调试日志目录: log/debug/
+const dirLogDebug = 'debug';
+
+// 间隔多久刷写一次日志 (60 秒)
+const logFlushTimeMs = 60 * 1000;

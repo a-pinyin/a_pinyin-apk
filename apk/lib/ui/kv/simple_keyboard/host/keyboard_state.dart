@@ -84,7 +84,7 @@ class KeyboardState {
   }
 
   // 加载 UI 配置
-  Future<void> loadUiConfig(UiConfigHost uch) async {
+  Future<void> loadUiConfig(UiConfigHost uch, {bool first = false}) async {
     // DEBUG
     print('kv.SimpleKeyboard  loadUiConfig()');
 
@@ -97,6 +97,9 @@ class KeyboardState {
             config: c,
           ));
     }
+
+    // 设置 clip
+    await getClipHost().setConfig(c);
   }
 
   // 获取 EditorInfo
@@ -126,7 +129,7 @@ class KeyboardState {
     required UiConfigHost uch,
     required ImChannel im,
   }) {
-    loadUiConfig(uch);
+    loadUiConfig(uch, first: true);
     loadEditorInfo(im);
   }
 
